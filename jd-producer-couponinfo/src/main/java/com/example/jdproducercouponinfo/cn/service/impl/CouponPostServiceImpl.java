@@ -66,8 +66,6 @@ public class CouponPostServiceImpl implements CouponPostService {
      */
     @Override
     public String addCoupon(CouList couList) {
-        //couList.setCou_cid(new MakeCouponId().makeCouponID().replace("-",""));
-        //couList.setCou_stauts(0);
         String startTime;
         Date start;
         if (isValidDate(couList.getCou_starttime())){
