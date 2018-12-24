@@ -1,9 +1,9 @@
 /**
  * Copyright (C), 2015-2018, XXX有限公司
- * FileName: CouponInfoController
+ * FileName: jgvb
  * Author:   RanHaoHao
- * Date:     2018/12/21 11:06
- * Description: 优惠券信息API
+ * Date:     2018/12/21 14:48
+ * Description:
  * History:
  * <author>          <time>          <version>          <desc>
  * 作者姓名           修改时间           版本号              描述
@@ -28,29 +28,33 @@
  * 　　　　　　　　　 ┃┫┫　 ┃┫┫
  * 　　　　　　　　　 ┗┻┛　 ┗┻┛+ + + + *
  */
-package com.example.jdproducercouponinfo.cn.controller;
-
-import com.example.jdproducercouponinfo.cn.service.CouponInfoService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import javax.annotation.Resource;
+package com.example.jdproducercoupon.cn.config;
 
 /**
- * 〈一句话功能简述〉<br> 
- * 〈优惠券信息API〉
- *
- * @author RanHaoHao
- * @create 2018/12/21 11:06
- * @since 1.0.0
+ * @author Tzy
+ * @date 2018/11/21 9:08 AM
  */
-@RestController
-public class CouponInfoController {
-    @Resource
-    private CouponInfoService couponInfoService;
 
-    @GetMapping(value = "/getAll")
-    public String getAllCoupon(){
-        return couponInfoService.getAllCoupon();
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
+
+@Configuration
+public class CorsConfig {
+    private CorsConfiguration buildConfig() {
+        CorsConfiguration corsConfiguration = new CorsConfiguration();
+        corsConfiguration.addAllowedOrigin("*"); // 1
+        corsConfiguration.addAllowedHeader("*"); // 2
+        corsConfiguration.addAllowedMethod("*"); // 3
+        return corsConfiguration;
+    }
+
+    @Bean
+    public CorsFilter corsFilter() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", buildConfig()); // 4
+        return new CorsFilter(source);
     }
 }
