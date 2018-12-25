@@ -1,5 +1,12 @@
 package com.example.jdproducercoupon.cn.pojo;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@ToString
 public class CouList {
 
   private Integer cou_id;
@@ -10,86 +17,7 @@ public class CouList {
   private Integer cou_quota;
   private Integer cou_sale;
   private Integer cou_discount;
+  private String cou_shop_type;
   private Integer cou_amount;
   private Integer cou_getamount;
-
-  public String getCou_name() {
-    return cou_name;
-  }
-
-  public void setCou_name(String cou_name) {
-    this.cou_name = cou_name;
-  }
-
-  public String getCou_starttime() {
-    return cou_starttime;
-  }
-
-  public void setCou_starttime(String cou_starttime) {
-    this.cou_starttime = cou_starttime;
-  }
-
-  public String getCou_passtime() {
-    return cou_passtime;
-  }
-
-  public void setCou_passtime(String cou_passtime) {
-    this.cou_passtime = cou_passtime;
-  }
-
-  public Integer getCou_type() {
-    return cou_type;
-  }
-
-  public void setCou_type(Integer cou_type) {
-    this.cou_type = cou_type;
-  }
-
-  public Integer getCou_quota() {
-    return cou_quota;
-  }
-
-  public void setCou_quota(Integer cou_quota) {
-    this.cou_quota = cou_quota;
-  }
-
-  public Integer getCou_sale() {
-    return cou_sale;
-  }
-
-  public void setCou_sale(Integer cou_sale) {
-    this.cou_sale = cou_sale;
-  }
-
-  public Integer getCou_discount() {
-    return cou_discount;
-  }
-
-  public void setCou_discount(Integer cou_discount) {
-    this.cou_discount = cou_discount;
-  }
-
-  public Integer getCou_amount() {
-    return cou_amount;
-  }
-
-  public void setCou_amount(Integer cou_amount) {
-    this.cou_amount = cou_amount;
-  }
-
-  public Integer getCou_id() {
-    return cou_id;
-  }
-
-  public void setCou_id(Integer cou_id) {
-    this.cou_id = cou_id;
-  }
-
-  public Integer getCou_getamount() {
-    return cou_getamount;
-  }
-
-  public void setCou_getamount(Integer cou_getamount) {
-    this.cou_getamount = cou_getamount;
-  }
 }
