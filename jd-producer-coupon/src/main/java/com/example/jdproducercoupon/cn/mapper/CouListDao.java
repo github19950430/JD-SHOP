@@ -1,9 +1,9 @@
 /**
  * Copyright (C), 2015-2018, XXX有限公司
- * FileName: CouponInfoService
+ * FileName: CouListDao
  * Author:   RanHaoHao
- * Date:     2018/12/21 10:58
- * Description: 优惠券信息业务
+ * Date:     2018/12/24 15:48
+ * Description:
  * History:
  * <author>          <time>          <version>          <desc>
  * 作者姓名           修改时间           版本号              描述
@@ -28,36 +28,19 @@
  * 　　　　　　　　　 ┃┫┫　 ┃┫┫
  * 　　　　　　　　　 ┗┻┛　 ┗┻┛+ + + + *
  */
-package com.example.jdproducercoupon.cn.service;
+package com.example.jdproducercoupon.cn.mapper;
+
+import com.example.jdproducercoupon.cn.pojo.CouList;
+import tk.mybatis.mapper.common.BaseMapper;
 
 /**
- * 〈一句话功能简述〉<br>
- * 〈优惠券信息业务〉
+ * 〈一句话功能简述〉<br> 
+ * 〈〉
  *
  * @author RanHaoHao
- * @create 2018/12/21
+ * @create 2018/12/24
  * @since 1.0.0
  */
-public interface CouponInfoService {
+public interface CouListDao extends BaseMapper<CouList> {
 
-    /**
-     * 〈一句话功能简述〉<br>
-     * 获取所有优惠券信息
-     *
-     * @param
-     * @return
-     * @author //TODO RanHaoHao
-     * @date 2018/12/21 10:59
-     */
-    String getAllCoupon();
-
-    /**
-     * 〈一句话功能简述〉<br>
-     *
-     * @param
-     * @return
-     * @author //TODO RanHaoHao
-     * @date 2018/12/25 8:39
-     */
-    void upCoupon(String couponMap);
 }
