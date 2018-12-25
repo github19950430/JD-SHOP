@@ -11,14 +11,7 @@ public class CouList {
   private Integer cou_sale;
   private Integer cou_discount;
   private Integer cou_amount;
-
-  public Integer getCou_Id() {
-    return cou_id;
-  }
-
-  public void setCou_Id(Integer cou_id) {
-    this.cou_id = cou_id;
-  }
+  private Integer cou_getamount;
 
   public String getCou_name() {
     return cou_name;
@@ -82,5 +75,21 @@ public class CouList {
 
   public void setCou_amount(Integer cou_amount) {
     this.cou_amount = cou_amount;
+  }
+
+  public Integer getCou_id() {
+    return cou_id;
+  }
+
+  public void setCou_id(Integer cou_id) {
+    this.cou_id = cou_id;
+  }
+
+  public Integer getCou_getamount() {
+    return cou_getamount;
+  }
+
+  public void setCou_getamount(Integer cou_getamount) {
+    this.cou_getamount = cou_getamount;
   }
 }

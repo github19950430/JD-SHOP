@@ -32,7 +32,10 @@ package com.example.jdproducercoupon.cn.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.example.jdproducercoupon.cn.mapper.CouponInfoDao;
+import com.example.jdproducercoupon.cn.pojo.CouList;
 import com.example.jdproducercoupon.cn.service.CouponInfoService;
+import com.example.jdproducercoupon.cn.util.RabbitConfig;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -60,5 +63,15 @@ public class CouponInfoServiceImpl implements CouponInfoService {
     @Override
     public String getAllCoupon() {
         return JSON.toJSONString(couponInfoDao.selectAll());
+    }
+
+    @Override
+    @RabbitListener(queues = RabbitConfig.queue_MinusInventory)
+    public void upCoupon(Integer cou_id) {
+        CouList couList = new CouList();
+        couList.setCou_id(cou_id);
+        couList = couponInfoDao.selectOne(couList);
+        couList.setCou_getamount(couList.getCou_getamount() + 1);
+        couponInfoDao.updateByPrimaryKeySelective(couList);
     }
 }

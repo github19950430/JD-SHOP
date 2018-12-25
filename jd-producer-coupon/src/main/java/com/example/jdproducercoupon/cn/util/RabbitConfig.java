@@ -1,4 +1,4 @@
-package com.example.jdproducercouponinfo.cn.util;
+package com.example.jdproducercoupon.cn.util;
 
 import org.springframework.amqp.core.Queue;
 import org.springframework.context.annotation.Bean;

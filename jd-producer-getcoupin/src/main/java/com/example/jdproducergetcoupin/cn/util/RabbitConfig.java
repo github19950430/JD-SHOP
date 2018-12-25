@@ -6,8 +6,14 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RabbitConfig {
-    //触发汇款接口   发送消息给瀚文  进行金额变更  单笔汇款
-    public static final String QUEUE_REMITTANCE = "QUEUE_REMITTANCE";
+    
+    /**
+     *〈一句话功能简述〉<br> 
+     * 优惠券领取，通知减库存
+     * @author //TODO RanHaoHao
+     * @date  2018/12/25 8:35
+     */
+    public static final String queue_MinusInventory = "queue_MinusInventory";
     //批量汇款
     public static final String QUEUE_BATCH = "QUEUE_BATCH";
     //发送卡号名字去瀚文验证是否匹配
@@ -16,7 +22,7 @@ public class RabbitConfig {
     public static final String QUEUE_HANWEN = "QUEUE_HANWEN";
     @Bean
     public Queue queue(){
-        return new Queue(QUEUE_REMITTANCE,true,false,false);
+        return new Queue(queue_MinusInventory,true,false,false);
     }
     @Bean
     public Queue queueBa(){
