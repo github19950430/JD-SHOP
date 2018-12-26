@@ -50,6 +50,6 @@ public class MakeCouponId {
      * @return string 返回ID
      */
     public static String makeCouponID(){
-        return UUID.randomUUID().toString();
+        return UUID.randomUUID().toString().replace("-", "");
     }
 }
