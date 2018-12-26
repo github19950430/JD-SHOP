@@ -1,9 +1,9 @@
 /**
  * Copyright (C), 2015-2018, XXX有限公司
- * FileName: CouponInfoService
+ * FileName: CouGetcouServiceImpl
  * Author:   RanHaoHao
- * Date:     2018/12/21 10:58
- * Description: 优惠券信息业务
+ * Date:     2018/12/26 17:09
+ * Description:
  * History:
  * <author>          <time>          <version>          <desc>
  * 作者姓名           修改时间           版本号              描述
@@ -28,28 +28,34 @@
  * 　　　　　　　　　 ┃┫┫　 ┃┫┫
  * 　　　　　　　　　 ┗┻┛　 ┗┻┛+ + + + *
  */
-package com.example.jdproducercoupon.cn.service;
+package com.example.jdproducercoupon.cn.service.impl;
 
-import java.text.ParseException;
+import com.alibaba.fastjson.JSON;
+import com.example.jdproducercoupon.cn.mapper.CouGetcouDao;
+import com.example.jdproducercoupon.cn.pojo.CouGetcou;
+import com.example.jdproducercoupon.cn.service.CouGetcouService;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
 
 /**
- * 〈一句话功能简述〉<br>
- * 〈优惠券信息业务〉
+ * 〈一句话功能简述〉<br> 
+ * 〈〉
  *
  * @author RanHaoHao
- * @create 2018/12/21
+ * @create 2018/12/26 17:09
  * @since 1.0.0
  */
-public interface CouponInfoService {
+@Service
+public class CouGetcouServiceImpl implements CouGetcouService {
 
-    /**
-     * 〈一句话功能简述〉<br>
-     * 获取所有优惠券信息
-     *
-     * @param
-     * @return
-     * @author //TODO RanHaoHao
-     * @date 2018/12/21 10:59
-     */
-    String getAllCoupon() throws ParseException;
+    @Resource
+    private CouGetcouDao couGetcouDao;
+
+    @Override
+    public String selSingleHasCoupon(Integer ownid) {
+        CouGetcou couGetcou = new CouGetcou();
+        couGetcou.setCou_ownid(ownid);
+        return JSON.toJSONString(couGetcouDao.select(couGetcou));
+    }
 }

@@ -30,11 +30,13 @@
  */
 package com.example.jdproducercoupon.cn.controller;
 
+import com.example.jdproducercoupon.cn.service.CouGetcouService;
 import com.example.jdproducercoupon.cn.service.CouponInfoService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.text.ParseException;
 
 /**
  * 〈一句话功能简述〉<br> 
@@ -49,8 +51,16 @@ public class CouponInfoController {
     @Resource
     private CouponInfoService couponInfoService;
 
+    @Resource
+    private CouGetcouService couGetcouService;
+
     @GetMapping(value = "/getAll")
-    public String getAllCoupon(){
+    public String getAllCoupon() throws ParseException {
         return couponInfoService.getAllCoupon();
+    }
+
+    @GetMapping(value = "/selcouponinfo")
+    public String selSingleHasCoupon (Integer ownid) {
+        return couGetcouService.selSingleHasCoupon(ownid);
     }
 }

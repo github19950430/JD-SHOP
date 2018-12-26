@@ -1,9 +1,9 @@
 /**
  * Copyright (C), 2015-2018, XXX有限公司
- * FileName: CouponInfoService
+ * FileName: CouGetcouService
  * Author:   RanHaoHao
- * Date:     2018/12/21 10:58
- * Description: 优惠券信息业务
+ * Date:     2018/12/26 17:07
+ * Description: 已领优惠券列表
  * History:
  * <author>          <time>          <version>          <desc>
  * 作者姓名           修改时间           版本号              描述
@@ -30,26 +30,14 @@
  */
 package com.example.jdproducercoupon.cn.service;
 
-import java.text.ParseException;
-
 /**
- * 〈一句话功能简述〉<br>
- * 〈优惠券信息业务〉
+ * 〈一句话功能简述〉<br> 
+ * 〈已领优惠券列表〉
  *
  * @author RanHaoHao
- * @create 2018/12/21
+ * @create 2018/12/26
  * @since 1.0.0
  */
-public interface CouponInfoService {
-
-    /**
-     * 〈一句话功能简述〉<br>
-     * 获取所有优惠券信息
-     *
-     * @param
-     * @return
-     * @author //TODO RanHaoHao
-     * @date 2018/12/21 10:59
-     */
-    String getAllCoupon() throws ParseException;
+public interface CouGetcouService {
+    String selSingleHasCoupon(Integer ownid);
 }
