@@ -23,4 +23,5 @@ public class CouList {
   private String cou_shop_type;
   private Integer cou_amount;
   private Integer cou_getamount;
+  private Integer cou_drawstatus;
 }

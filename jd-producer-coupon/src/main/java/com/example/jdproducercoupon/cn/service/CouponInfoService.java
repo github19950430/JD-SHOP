@@ -51,5 +51,5 @@ public interface CouponInfoService {
      * @author //TODO RanHaoHao
      * @date 2018/12/21 10:59
      */
-    String getAllCoupon() throws ParseException;
+    String getAllCoupon(Integer ownid) throws ParseException;
 }

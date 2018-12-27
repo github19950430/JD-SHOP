@@ -31,8 +31,10 @@
 package com.example.jdproducercoupon.cn.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.example.jdproducercoupon.cn.mapper.CouGetcouDao;
 import com.example.jdproducercoupon.cn.mapper.CouponInfoDao;
 import com.example.jdproducercoupon.cn.mapper.JdShopTypeDao;
+import com.example.jdproducercoupon.cn.pojo.CouGetcou;
 import com.example.jdproducercoupon.cn.pojo.CouList;
 import com.example.jdproducercoupon.cn.pojo.JdShopType;
 import com.example.jdproducercoupon.cn.service.CouponInfoService;
@@ -61,6 +63,9 @@ public class CouponInfoServiceImpl implements CouponInfoService {
     @Resource
     private JdShopTypeDao jdShopTypeDao;
 
+    @Resource
+    private CouGetcouDao couGetcouDao;
+
     /**
      * 〈一句话功能简述〉<br>
      * 获取所有优惠券信息
@@ -70,21 +75,26 @@ public class CouponInfoServiceImpl implements CouponInfoService {
      * @date 2018/12/21 10:59
      */
     @Override
-    public String getAllCoupon() throws ParseException {
-        CouList couList = new CouList();
-        List<CouList> couListList = couponInfoDao.select(couList);
+    public String getAllCoupon(Integer ownid) throws ParseException {
+        List<CouList> couListList = couponInfoDao.selectAll();
         List<CouList> couLists = new ArrayList<>();
         for (CouList coulist : couListList) {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             long startTime = dateFormat.parse(coulist.getCou_starttime()).getTime();
             long passTime = dateFormat.parse(coulist.getCou_passtime()).getTime();
             long nowTime = System.currentTimeMillis();
+            CouGetcou couGetcou = new CouGetcou();
+            couGetcou.setCou_lid(coulist.getCou_id());
+            if (couGetcouDao.selectOne(couGetcou) != null) {
+                coulist.setCou_drawstatus(1);
+            } else {
+                coulist.setCou_drawstatus(0);
+            }
             if (nowTime > startTime && nowTime < passTime) {
                 Example jdShopTypeExample = new Example(JdShopType.class);
                 jdShopTypeExample.createCriteria()
                         .andEqualTo("typeid", coulist.getCou_shop_type());
                 coulist.setCou_shop_type(jdShopTypeDao.selectOneByExample(jdShopTypeExample).getTypename());
-
                 couLists.add(coulist);
             }
         }

@@ -55,8 +55,8 @@ public class CouponInfoController {
     private CouGetcouService couGetcouService;
 
     @GetMapping(value = "/getAll")
-    public String getAllCoupon() throws ParseException {
-        return couponInfoService.getAllCoupon();
+    public String getAllCoupon(Integer ownid) throws ParseException {
+        return couponInfoService.getAllCoupon(ownid);
     }
 
     @GetMapping(value = "/selcouponinfo")
