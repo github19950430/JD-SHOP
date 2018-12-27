@@ -40,4 +40,6 @@ package com.example.jdproducercoupon.cn.service;
  */
 public interface CouGetcouService {
     String selSingleHasCoupon(Integer ownid);
+
+    String orderUseCoupon(String couShopType, Integer ownid);
 }

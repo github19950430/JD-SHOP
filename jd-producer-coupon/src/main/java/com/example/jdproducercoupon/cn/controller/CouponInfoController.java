@@ -33,6 +33,7 @@ package com.example.jdproducercoupon.cn.controller;
 import com.example.jdproducercoupon.cn.service.CouGetcouService;
 import com.example.jdproducercoupon.cn.service.CouponInfoService;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -62,5 +63,10 @@ public class CouponInfoController {
     @GetMapping(value = "/selcouponinfo")
     public String selSingleHasCoupon (Integer ownid) {
         return couGetcouService.selSingleHasCoupon(ownid);
+    }
+
+    @PostMapping(value = "/usecoupon")
+    public String useCoupon(String couShopType, Integer ownid) {
+        return couGetcouService.orderUseCoupon(couShopType, ownid);
     }
 }
