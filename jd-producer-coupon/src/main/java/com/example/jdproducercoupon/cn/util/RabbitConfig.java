@@ -27,6 +27,13 @@ public class RabbitConfig {
     //监听瀚文发给我的队列
     public static final String QUEUE_HANWEN = "QUEUE_HANWEN";
 
+
+    public static final String QUEUE_RAISE_A_PRICE = "QUEUE_RAISE_A_PRICE";
+
+    @Bean
+    public Queue queue11() {
+        return new Queue(QUEUE_RAISE_A_PRICE, true, false, false);
+    }
     @Bean
     public Queue queue() {
         return new Queue(QUEUE_MINUS_INVENTORY, true, false, false);

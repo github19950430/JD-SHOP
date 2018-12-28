@@ -32,6 +32,7 @@ package com.example.jdproducercoupon.cn.controller;
 
 import com.example.jdproducercoupon.cn.service.CouGetcouService;
 import com.example.jdproducercoupon.cn.service.CouponInfoService;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -68,5 +69,10 @@ public class CouponInfoController {
     @PostMapping(value = "/usecoupon")
     public String useCoupon(String couShopType, Integer ownid) {
         return couGetcouService.orderUseCoupon(couShopType, ownid);
+    }
+
+    @RabbitListener(queues = "QUEUE_RAISE_A_PRICE")
+    public void aaa(String aa){
+        System.out.println(aa);
     }
 }

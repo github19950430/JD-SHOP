@@ -79,17 +79,20 @@ public class CouponInfoServiceImpl implements CouponInfoService {
         List<CouList> couListList = couponInfoDao.selectAll();
         List<CouList> couLists = new ArrayList<>();
         for (CouList coulist : couListList) {
+            CouGetcou couGetcou = new CouGetcou();
+            couGetcou.setCou_lid(coulist.getCou_id());
+            couGetcou.setCou_ownid(ownid);
+            if (couGetcouDao.selectCount(couGetcou) == 1) {
+                System.out.println("查到了" + JSON.toJSONString(couGetcou));
+                coulist.setCou_drawstatus(1);
+            } else {
+                System.out.println("没查到" + JSON.toJSONString(couGetcou));
+                coulist.setCou_drawstatus(0);
+            }
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             long startTime = dateFormat.parse(coulist.getCou_starttime()).getTime();
             long passTime = dateFormat.parse(coulist.getCou_passtime()).getTime();
             long nowTime = System.currentTimeMillis();
-            CouGetcou couGetcou = new CouGetcou();
-            couGetcou.setCou_lid(coulist.getCou_id());
-            if (couGetcouDao.selectOne(couGetcou) != null) {
-                coulist.setCou_drawstatus(1);
-            } else {
-                coulist.setCou_drawstatus(0);
-            }
             if (nowTime > startTime && nowTime < passTime) {
                 Example jdShopTypeExample = new Example(JdShopType.class);
                 jdShopTypeExample.createCriteria()
