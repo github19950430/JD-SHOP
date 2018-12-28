@@ -1,9 +1,9 @@
 /**
  * Copyright (C), 2015-2018, XXX有限公司
- * FileName: CouponInfoController
+ * FileName: CouponController
  * Author:   RanHaoHao
- * Date:     2018/12/21 11:06
- * Description: 优惠券信息API
+ * Date:     2018/12/28 21:42
+ * Description:
  * History:
  * <author>          <time>          <version>          <desc>
  * 作者姓名           修改时间           版本号              描述
@@ -28,43 +28,41 @@
  * 　　　　　　　　　 ┃┫┫　 ┃┫┫
  * 　　　　　　　　　 ┗┻┛　 ┗┻┛+ + + + *
  */
-package com.example.jdproducercoupon.cn.controller;
+package com.example.jdconsumercoupon.cn.controller;
 
-import com.example.jdproducercoupon.cn.service.CouGetcouService;
-import com.example.jdproducercoupon.cn.service.CouponInfoService;
-import org.springframework.web.bind.annotation.*;
+import com.example.jdconsumercoupon.cn.service.CouponService;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import java.text.ParseException;
 
 /**
  * 〈一句话功能简述〉<br> 
- * 〈优惠券信息API〉
+ * 〈〉
  *
  * @author RanHaoHao
- * @create 2018/12/21 11:06
+ * @create 2018/12/28 21:42
  * @since 1.0.0
  */
 @RestController
-public class CouponInfoController {
-    @Resource
-    private CouponInfoService couponInfoService;
+public class CouponController {
 
     @Resource
-    private CouGetcouService couGetcouService;
+    private CouponService couponService;
 
-    @GetMapping(value = "/getAll")
-    public String getAllCoupon(@RequestParam Integer ownid) throws ParseException {
-        return couponInfoService.getAllCoupon(ownid);
+    @GetMapping(value = "/feigngetall")
+    public String getAllCoupon(Integer ownid) {
+        return couponService.getAllCoupon(ownid);
     }
 
-    @GetMapping(value = "/selcouponinfo")
-    public String selSingleHasCoupon (@RequestParam Integer ownid) {
-        return couGetcouService.selSingleHasCoupon(ownid);
+    @GetMapping(value = "/feignselcouponinfof")
+    public String selSingleHasCoupon (Integer ownid) {
+        return couponService.selSingleHasCoupon(ownid);
     }
 
-    @GetMapping(value = "/usecoupon")
-    public String useCoupon(@RequestParam String couShopType, @RequestParam Integer ownid) {
-        return couGetcouService.orderUseCoupon(couShopType, ownid);
+    @GetMapping(value = "/feignusecouponf")
+    public String useCoupon(String couShopType, Integer ownid) {
+        return couponService.useCoupon(couShopType, ownid);
     }
+
 }
