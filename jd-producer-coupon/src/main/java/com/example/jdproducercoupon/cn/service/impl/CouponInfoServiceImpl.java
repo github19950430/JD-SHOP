@@ -83,10 +83,8 @@ public class CouponInfoServiceImpl implements CouponInfoService {
             couGetcou.setCou_lid(coulist.getCou_id());
             couGetcou.setCou_ownid(ownid);
             if (couGetcouDao.selectCount(couGetcou) == 1) {
-                System.out.println("查到了" + JSON.toJSONString(couGetcou));
                 coulist.setCou_drawstatus(1);
             } else {
-                System.out.println("没查到" + JSON.toJSONString(couGetcou));
                 coulist.setCou_drawstatus(0);
             }
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
