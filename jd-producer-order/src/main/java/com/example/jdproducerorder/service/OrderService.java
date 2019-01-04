@@ -1,6 +1,7 @@
 package com.example.jdproducerorder.service;
 
 
+import com.alibaba.fastjson.JSONArray;
 import com.example.jdproducerorder.entity.order.Order;
 import com.example.jdproducerorder.entity.solr.OrderVo;
 
@@ -21,14 +22,14 @@ public interface OrderService {
      * @param status
      * @return
      */
-    List<OrderVo> searchOrder(Integer userid, Integer status, Integer index)  throws Exception;
+    JSONArray searchOrder(Integer userid, Integer status, Integer index)  throws Exception;
 
     /**
      * 搜索订单通过用户id
      * @param userid
      * @return
      */
-    List<OrderVo> searchOrderAll(Integer userid, Integer index)  throws Exception;
+    JSONArray searchOrderAll(Integer userid, Integer index)  throws Exception;
 
     /**
      * 搜索订单通过订单编号
@@ -52,5 +53,5 @@ public interface OrderService {
      * @param userId
      * @return
      */
-    int noPayment2payment(String orderNo, Integer userId);
+    int noPayment2payment(String orderNo, Integer userId, String payNo, String payTime);
 }

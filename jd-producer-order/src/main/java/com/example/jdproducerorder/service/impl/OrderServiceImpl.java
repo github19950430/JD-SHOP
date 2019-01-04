@@ -86,7 +86,7 @@ public class OrderServiceImpl implements OrderService {
      * @return
      */
     @Override
-    public List<OrderVo> searchOrder(Integer userid, Integer status,Integer index) throws Exception{
+    public JSONArray searchOrder(Integer userid, Integer status,Integer index) throws Exception{
         if(index < 1)
             index =1;
         log.info("userid :" + userid + " status: " + status);
@@ -94,29 +94,44 @@ public class OrderServiceImpl implements OrderService {
         List<OrderDetail> orderDetails = null;
         //未付款的从redis中查询
         if(status == 0){
-            return getRedisOrderVos(userid, orderVos);
-        }
+            orderVos = getRedisOrderVos(userid, orderVos);
+        }else {
+            OrderSearch orderSearch = new OrderSearch();
+            String sb = "user_id:" + userid + " AND order_status:" + status;
 
-        OrderSearch orderSearch = new OrderSearch();
-        String sb = "user_id:" + userid + " AND order_status:" + status;
-
-        orderSearch.setPageSize((index - 1) * 5);
-        System.out.println(index * 5 - 1 + "-------------------");
+            orderSearch.setPageSize((index - 1) * 5);
 //        orderSearch.setState("1");
 //        orderSearch.setId(1);
-        orderSearch.setQueryString(sb.toString());
+            orderSearch.setQueryString(sb.toString());
 
+            orderVos = solrOrderDao.searchOrder(orderSearch);
 
-
-        orderVos = solrOrderDao.searchOrder(orderSearch);
-
-        for (OrderVo orderVo : orderVos) {
-            String detail = "product_sku:* AND order_no:" + orderVo.getOrderNo();
-            orderSearch.setQueryString(detail);
-            orderVo.setOrderDetailVos(solrOrderDao.searchOrderDetail(orderSearch));
+            for (OrderVo orderVo : orderVos) {
+                String detail = "product_sku:* AND order_no:" + orderVo.getOrderNo();
+                orderSearch.setQueryString(detail);
+                orderVo.setOrderDetailVos(solrOrderDao.searchOrderDetail(orderSearch));
+            }
+        }
+        //获得总条数，并将其载体删除,用于分页
+        String totalNum = "";
+        if (status == 0) {
+            totalNum = orderVos.size() + "";
+        }else {
+            totalNum = orderVos.get(orderVos.size() - 1).getStoreName();
+            orderVos.remove(orderVos.size() - 1);
         }
 
-        return orderVos;
+        JSONArray jsonArray = JSON.parseArray(JSON.toJSONString(orderVos));
+        //以下代码用于分页
+        String totalPageNum = Integer.parseInt(totalNum) % 5 == 0
+                ? Integer.parseInt(totalNum) / 5 + ""
+                : Integer.parseInt(totalNum) / 5 + 1 +"";
+        if(!jsonArray.isEmpty()){
+            jsonArray.getJSONObject(0).fluentPut("totalNum", totalNum);
+            jsonArray.getJSONObject(0).fluentPut("totalPageNum", totalPageNum);
+        }
+
+        return jsonArray;
     }
 
     /**
@@ -126,35 +141,53 @@ public class OrderServiceImpl implements OrderService {
      * @return
      */
     @Override
-    public List<OrderVo> searchOrderAll(Integer userid, Integer index) throws Exception {
+    public JSONArray searchOrderAll(Integer userid, Integer index) throws Exception {
         if(index < 1)
             index =1;
-        List<OrderVo> orderVos = new ArrayList<>();
-        orderVos = searchOrder(userid, 0, index);
-
+        //未支付的订单
 
         OrderSearch orderSearch = new OrderSearch();
         String sb = "address: * AND user_id:" + userid;
 
         orderSearch.setPageSize((index - 1) * 5);
         orderSearch.setQueryString(sb.toString());
+        List<OrderVo> orderVos = new ArrayList<>();
+        //已支付的订单
         orderVos = solrOrderDao.searchOrder(orderSearch);
+        //获得solr中查询的总条数，并将其载体删除,用于分页
+        String totalNum = orderVos.get(orderVos.size() - 1).getStoreName();
+        orderVos.remove(orderVos.size() - 1);
 
+        //为每个订单设置详情
         for (OrderVo orderVo : orderVos) {
             String detail = "product_sku:* AND order_no:" + orderVo.getOrderNo();
             orderSearch.setQueryString(detail);
-            orderVo.setOrderDetailVos(solrOrderDao.searchOrderDetail(orderSearch));
+            List<OrderDetailVo> orderDetailVos = solrOrderDao.searchOrderDetail(orderSearch);
+            if (!orderDetailVos.isEmpty()) {
+                orderVo.setOrderDetailVos(orderDetailVos);
+            }
         }
+        List<OrderVo> redisOrderVos = getRedisOrderVos(userid, orderVos);
+        totalNum = orderVos.size() + "";
         log.info("vos " + orderVos);
-        return orderVos;
+
+        JSONArray jsonArray = JSON.parseArray(JSON.toJSONString(orderVos));
+        //以下代码用于分页
+        String totalPageNum = Integer.parseInt(totalNum) % 5 == 0
+                ? Integer.parseInt(totalNum) / 5 + ""
+                : Integer.parseInt(totalNum) / 5 + 1 +"";
+        if(!jsonArray.isEmpty()){
+            jsonArray.getJSONObject(0).fluentPut("totalNum", totalNum);
+            jsonArray.getJSONObject(0).fluentPut("totalPageNum", totalPageNum);
+        }
+
+        return jsonArray;
     }
 
     private List<OrderVo> getRedisOrderVos(Integer userid, List<OrderVo> orderVos) {
-        Set<String> keys = redisTemplate.keys("*,3," + userid);
-        log.info("keys: " + keys.toString());
-        for (String key : keys){
-            log.info("key is " + key);
-            orderVos.add(redisUtil.get(key, OrderVo.class));
+        Set<String> vos = redisTemplate.keys("*,3," + userid);
+        for (String vo : vos){
+            orderVos.add(JSON.parseObject(redisUtil.get(vo).toString(), OrderVo.class));
         }
 
         return orderVos;
@@ -211,13 +244,15 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     @Transactional
-    public int noPayment2payment(String orderNo, Integer userId) {
+    public int noPayment2payment(String orderNo, Integer userId, String payNo, String payTime) {
         Order order = JSONObject.parseObject(redisUtil.get(orderNo + ",1," + userId) + "", Order.class);
         List<OrderDetail> orderDetails = JSONArray.parseArray(redisUtil.get(orderNo + ",2," + userId) + "", OrderDetail.class);
         if(order == null || orderDetails == null)
             return -2;
         //修改为已支付
         order.setOrderStatus(1);
+        order.setPayTime(new Date(payTime));
+        order.setOutTradeNo(payNo);
         if (orderDao.insert(order) > 0 && orderDetailDao.insertAll(orderDetails) > 0){
             //删除redis中的数据
             redisUtil.del(orderNo + ",1," + userId,orderNo + ",2," + userId,orderNo + ",3," + userId);

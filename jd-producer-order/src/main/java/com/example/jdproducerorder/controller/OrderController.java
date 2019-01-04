@@ -13,6 +13,8 @@ import org.apache.solr.client.solrj.SolrServerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
@@ -34,28 +36,15 @@ public class OrderController {
     public String searchOrder(@RequestParam("userid") Integer userid,
                               @RequestParam("status") Integer status,
                               @RequestParam("index") Integer index) throws Exception {
-        List<OrderVo> orderVos = null;
-        orderVos = orderService.searchOrder(userid, status, index);
-        return JSON.toJSONString(orderVos);
+        return orderService.searchOrder(userid, status, index).toJSONString();
     }
 
     @ApiOperation(value = "搜索订单",notes = "通过用户id")
     @GetMapping(value = "/searchAll")
     public String searchOrder(@RequestParam Integer userid,
                               @RequestParam Integer index) throws Exception {
-        List<OrderVo> orderVos = orderService.searchOrderAll(userid,index);
-        JSONArray jsonArray = JSON.parseArray(JSON.toJSONString(orderVos));
-        //以下代码用于分页
-        String totalNum = jsonArray.getJSONObject(jsonArray.size() - 1).getString("storeName");
-        jsonArray.remove(jsonArray.size() - 1);
-        String totalPageNum = Integer.parseInt(totalNum) % 5 == 0
-                ? Integer.parseInt(totalNum) / 5 + ""
-                : Integer.parseInt(totalNum) / 5 + 1 +"";
-        if(!jsonArray.isEmpty()){
-            jsonArray.getJSONObject(0).fluentPut("totalNum", totalNum);
-            jsonArray.getJSONObject(0).fluentPut("totalPageNum", totalPageNum);
-        }
-        return jsonArray.toJSONString();
+
+        return orderService.searchOrderAll(userid,index).toJSONString();
     }
 
     @ApiOperation(value = "搜索订单", notes = "通过单号确定唯一的订单")
@@ -66,7 +55,7 @@ public class OrderController {
         return JSON.toJSONString(orderService.searchOrder(userid, status, orderNo));
     }
 
-    @PostMapping("/create")
+    @PostMapping(value = "/create")
     public String create(@RequestBody OrderVo orderVo){
         List<OrderVo> order = orderService.createOrder(orderVo);
         return JSON.toJSONString(order);
@@ -85,8 +74,11 @@ public class OrderController {
 
     @ApiOperation(value = "将未付款更改为已付款")
     @PostMapping("/noPayment2payment")
-    public String noPayment2payment(String orderNo, Integer userId){
-        return orderService.noPayment2payment(orderNo, userId) + "";
+    public String noPayment2payment(@RequestParam("orderNo") String orderNo,
+                                    @RequestParam("userId") Integer userId,
+                                    @RequestParam("payNo") String payNo,
+                                    @RequestParam("payTime") String payTime){
+        return orderService.noPayment2payment(orderNo, userId, payNo, payTime) + "";
     }
 
     @ApiOperation(value = "清空solr中的数据")

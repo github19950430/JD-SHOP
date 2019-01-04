@@ -40,7 +40,7 @@ public class Order implements Serializable {
     //订单支付渠道
     private Integer payChannel;
     //订单支付单号
-    private Integer outTradeNo;
+    private String outTradeNo;
 
     //创建时间
     @DateTimeFormat(pattern = "yyyyMMddHHmmss")

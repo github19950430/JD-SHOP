@@ -27,6 +27,8 @@ repositories {
 ext['springCloudVersion'] = 'Dalston.SR4'
 
 dependencies {
+    //定时任务
+    compile group: 'org.quartz-scheduler', name: 'quartz', version: '1.8.4'
     //activiti
     compile group: 'org.activiti', name: 'activiti-engine', version: '6.0.0'
     //swagger
