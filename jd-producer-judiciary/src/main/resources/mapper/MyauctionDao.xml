@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.jdproducerjudiciary.dao.MyauctionDao">
+
+    <resultMap type="com.example.jdproducerjudiciary.entity.Myauction" id="MyauctionMap">
+        <result property="myauctionId" column="myauction_id" jdbcType="INTEGER"/>
+        <result property="myauctionShopid" column="myauction_shopid" jdbcType="INTEGER"/>
+        <result property="myauctionType" column="myauction_type" jdbcType="INTEGER"/>
+        <result property="myauctionTime" column="myauction_time" jdbcType="VARCHAR"/>
+        <result property="myauctionUserid" column="myauction_userid" jdbcType="INTEGER"/>
+        <result property="myauctionState" column="myauction_state" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="MyauctionMap">
+        select
+          myauction_id, myauction_shopid, myauction_type, myauction_time, myauction_userid, myauction_state
+        from myauction
+        where myauction_id = #{myauctionId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="MyauctionMap">
+        select
+          myauction_id, myauction_shopid, myauction_type, myauction_time, myauction_userid, myauction_state
+        from myauction
+        where myauction_userid = #{userid} and myauction_state = #{state}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="MyauctionMap">
+        select
+          myauction_id, myauction_shopid, myauction_type, myauction_time, myauction_userid, myauction_state
+        from myauction
+        <where>
+            <if test="myauctionId != null">
+                and myauction_id = #{myauctionId}
+            </if>
+            <if test="myauctionShopid != null">
+                and myauction_shopid = #{myauctionShopid}
+            </if>
+            <if test="myauctionType != null">
+                and myauction_type = #{myauctionType}
+            </if>
+            <if test="myauctionTime != null and myauctionTime != ''">
+                and myauction_time = #{myauctionTime}
+            </if>
+            <if test="myauctionUserid != null">
+                and myauction_userid = #{myauctionUserid}
+            </if>
+            <if test="myauctionState != null">
+                and myauction_state = #{myauctionState}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="myauctionId" useGeneratedKeys="true">
+        insert into myauction(myauction_shopid, myauction_type, myauction_time, myauction_userid, myauction_state)
+        values (#{myauctionShopid}, #{myauctionType}, #{myauctionTime}, #{myauctionUserid}, #{myauctionState})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update myauction
+        <set>
+            <if test="myauctionShopid != null">
+                myauction_shopid = #{myauctionShopid},
+            </if>
+            <if test="myauctionType != null">
+                myauction_type = #{myauctionType},
+            </if>
+            <if test="myauctionTime != null and myauctionTime != ''">
+                myauction_time = #{myauctionTime},
+            </if>
+            <if test="myauctionUserid != null">
+                myauction_userid = #{myauctionUserid},
+            </if>
+            <if test="myauctionState != null">
+                myauction_state = #{myauctionState},
+            </if>
+        </set>
+        where myauction_id = #{myauctionId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from myauction where myauction_id = #{myauctionId}
+    </delete>
+
+</mapper>

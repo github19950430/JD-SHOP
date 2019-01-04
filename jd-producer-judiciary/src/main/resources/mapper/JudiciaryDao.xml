@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.jdproducerjudiciary.dao.JudiciaryDao">
+
+    <resultMap type="com.example.jdproducerjudiciary.entity.Judiciary" id="JudiciaryMap">
+        <result property="judId" column="jud_id" jdbcType="INTEGER"/>
+        <result property="judCategory" column="jud_category" jdbcType="INTEGER"/>
+        <result property="judAreacity" column="jud_areacity" jdbcType="VARCHAR"/>
+        <result property="judStatus" column="jud_status" jdbcType="INTEGER"/>
+        <result property="judFrequency" column="jud_frequency" jdbcType="INTEGER"/>
+        <result property="judTradename" column="jud_tradename" jdbcType="VARCHAR"/>
+        <result property="judSite" column="jud_site" jdbcType="VARCHAR"/>
+        <result property="judLongitude" column="jud_longitude" jdbcType="VARCHAR"/>
+        <result property="judDimensionality" column="jud_dimensionality" jdbcType="VARCHAR"/>
+        <result property="judAuctiontime" column="jud_auctiontime" jdbcType="TIMESTAMP"/>
+        <result property="judTimeout" column="jud_timeout" jdbcType="VARCHAR"/>
+        <result property="judWillnum" column="jud_willnum" jdbcType="INTEGER"/>
+        <result property="judOnlooker" column="jud_onlooker" jdbcType="INTEGER"/>
+        <result property="judCurrentprice" column="jud_currentprice" jdbcType="VARCHAR"/>
+        <result property="judStartingprice" column="jud_startingprice" jdbcType="VARCHAR"/>
+        <result property="judValuation" column="jud_valuation" jdbcType="VARCHAR"/>
+        <result property="judBidincrement" column="jud_bidIncrement" jdbcType="VARCHAR"/>
+        <result property="judCashdeposit" column="jud_cashdeposit" jdbcType="VARCHAR"/>
+        <result property="judAnnouncement" column="jud_announcement" jdbcType="VARCHAR"/>
+        <result property="judRemind" column="jud_remind" jdbcType="INTEGER"/>
+        <result property="judPicture" column="jud_picture" jdbcType="VARCHAR"/>
+        <result property="judDisposeunit" column="jud_disposeunit" jdbcType="VARCHAR"/>
+        <result property="judLinkman" column="jud_linkman" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个商品的保证金-->
+    <select id="queryById" resultMap="JudiciaryMap">
+        select
+          jud_cashdeposit
+        from judiciary where jud_id = #{judId}
+    </select>
+    <!--查询当前价格和查询结束时间和加价幅度-->
+    <select id="querycurrent" resultMap="JudiciaryMap">
+        select
+          jud_currentprice,jud_timeout,jud_bidIncrement
+        from judiciary where jud_id = #{judId}
+    </select>
+    <!--查询拍品名称-->
+    <select id="queryname" resultMap="JudiciaryMap">
+        select
+          jud_tradename
+        from judiciary where jud_id = #{judId}
+    </select>
+    <!--查询所以导入到Solr中-->
+    <select id="queryAlljud" resultMap="JudiciaryMap">
+        select
+          jud_id, jud_category, jud_areacity, jud_status, jud_frequency, jud_tradename, jud_site, jud_longitude, jud_dimensionality, jud_auctiontime, jud_timeout, jud_willnum, jud_onlooker, jud_currentprice, jud_startingprice, jud_valuation, jud_bidIncrement, jud_cashdeposit, jud_announcement, jud_remind, jud_picture, jud_disposeunit, jud_linkman
+        from judiciary
+    </select>
+
+    <!--新增所有列 后台 增加商品-->
+    <insert id="insert" keyProperty="judId" useGeneratedKeys="true">
+        insert into judiciary(jud_category, jud_areacity, jud_status, jud_frequency, jud_tradename, jud_site, jud_longitude, jud_dimensionality, jud_auctiontime, jud_timeout, jud_willnum, jud_onlooker, jud_currentprice, jud_startingprice, jud_valuation, jud_bidIncrement, jud_cashdeposit, jud_announcement, jud_remind, jud_picture, jud_disposeunit, jud_linkman)
+        values (#{judCategory}, #{judAreacity}, #{judStatus}, #{judFrequency}, #{judTradename}, #{judSite}, #{judLongitude}, #{judDimensionality}, #{judAuctiontime}, #{judTimeout}, #{judWillnum}, #{judOnlooker}, #{judCurrentprice}, #{judStartingprice}, #{judValuation}, #{judBidincrement}, #{judCashdeposit}, #{judAnnouncement}, #{judRemind}, #{judPicture}, #{judDisposeunit}, #{judLinkman})
+    </insert>
+
+    <!--通过主键修改数据 加价修改-->
+    <update id="update">
+        update judiciary set jud_currentprice = #{price},jud_timeout = #{time} where jud_id = #{judId}
+    </update>
+    <!--缴纳保证后 报名人数加一-->
+    <update id="updateWillNum">
+        update judiciary SET jud_willnum = jud_willnum + 1 WHERE jud_id = #{judId}
+    </update>
+    <!--点击设置提醒 修改提醒人数-->
+    <update id="updateRemind">
+        update judiciary SET jud_remind = jud_remind + 1 WHERE jud_id = #{judId}
+    </update>
+    <!--定时任务修改 拍卖状态-->
+    <update id="updateStatus">
+        update judiciary SET jud_status = 3 WHERE jud_id = #{judId}
+    </update>
+    <!--定时任务修改 拍卖状态-->
+    <update id="updateStatusAd">
+        update judiciary SET jud_status = 1 WHERE jud_id = #{judId}
+    </update>
+</mapper>

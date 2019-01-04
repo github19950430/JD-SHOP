@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.jdproducerjudiciary.dao.BidsDao">
+
+    <resultMap type="com.example.jdproducerjudiciary.entity.Bids" id="BidsMap">
+        <result property="bidsId" column="Bids_id" jdbcType="INTEGER"/>
+        <result property="bidsGoods" column="Bids_goods" jdbcType="INTEGER"/>
+        <result property="bidsUserid" column="Bids_userid" jdbcType="INTEGER"/>
+        <result property="bidsPrice" column="Bids_price" jdbcType="VARCHAR"/>
+        <result property="bidsTime" column="Bids_time" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="BidsMap">
+        select Bids_userid,Bids_price,Bids_time from bids where Bids_goods = #{judid} ORDER BY Bids_time desc
+    </select>
+    <!--查询商品出价次数 length()-->
+    <select id="querylength" parameterType="int" resultType="int">
+        select
+          count(0)
+        from bids
+        where Bids_goods = #{judid}
+    </select>
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="BidsMap">
+        select
+          Bids_id, Bids_goods, Bids_userid, Bids_price, Bids_time
+        from bids
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAllbid" resultMap="BidsMap">
+        select
+          Bids_id, Bids_goods, Bids_userid, Bids_price, Bids_time
+        from bids
+        <where>
+            <if test="bidsId != null">
+                and Bids_id = #{bidsId}
+            </if>
+            <if test="bidsGoods != null">
+                and Bids_goods = #{bidsGoods}
+            </if>
+            <if test="bidsUserid != null">
+                and Bids_userid = #{bidsUserid}
+            </if>
+            <if test="bidsPrice != null">
+                and Bids_price = #{bidsPrice}
+            </if>
+            <if test="bidsTime != null">
+                and Bids_time = #{bidsTime}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="bidsId" useGeneratedKeys="true">
+        insert into bids(Bids_goods, Bids_userid, Bids_price, Bids_time)
+        values (#{bidsGoods}, #{bidsUserid}, #{bidsPrice}, #{bidsTime})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update bids
+        <set>
+            <if test="bidsGoods != null">
+                Bids_goods = #{bidsGoods},
+            </if>
+            <if test="bidsUserid != null">
+                Bids_userid = #{bidsUserid},
+            </if>
+            <if test="bidsPrice != null">
+                Bids_price = #{bidsPrice},
+            </if>
+            <if test="bidsTime != null">
+                Bids_time = #{bidsTime},
+            </if>
+        </set>
+        where Bids_id = #{bidsId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from bids where Bids_id = #{bidsId}
+    </delete>
+
+</mapper>
