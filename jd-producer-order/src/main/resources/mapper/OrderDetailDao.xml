@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.jdproducerorder.dao.OrderDetailDao">
+
+    <resultMap type="com.example.jdproducerorder.entity.order.OrderDetail" id="OrderDetailMap">
+        <result property="orderDetailId" column="order_detail_id" jdbcType="INTEGER"/>
+        <result property="orderNo" column="order_no" jdbcType="VARCHAR"/>
+        <result property="productId" column="product_id" jdbcType="INTEGER"/>
+        <result property="number" column="number" jdbcType="INTEGER"/>
+        <result property="productName" column="product_name" jdbcType="VARCHAR"/>
+        <result property="productPrice" column="product_price" jdbcType="NUMERIC"/>
+        <result property="productSku" column="product_sku" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="OrderDetailMap">
+        select
+          order_detail_id, order_no, store_id, product_id, number, product_name, product_price, product_sku, status
+        from JD_SHOP_ORDER.order_detail
+        where order_detail_id = #{orderDetailId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="OrderDetailMap">
+        select
+          order_detail_id, order_no, store_id, product_id, number, product_name, product_price, product_sku, status
+        from JD_SHOP_ORDER.order_detail
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="OrderDetailMap">
+        select
+          order_detail_id, order_no, product_id, number, product_name, product_price, product_sku, status
+        from JD_SHOP_ORDER.order_detail
+        <where>
+            <if test="orderDetailId != null">
+                and order_detail_id = #{orderDetailId}
+            </if>
+            <if test="orderNo != null">
+                and order_no = #{orderNo}
+            </if>
+            <if test="productId != null">
+                and product_id = #{productId}
+            </if>
+            <if test="number != null">
+                and number = #{number}
+            </if>
+            <if test="productName != null and productName != ''">
+                and product_name = #{productName}
+            </if>
+            <if test="productPrice != null">
+                and product_price = #{productPrice}
+            </if>
+            <if test="productSku != null and productSku != ''">
+                and product_sku = #{productSku}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="orderDetailId" useGeneratedKeys="true">
+        insert into JD_SHOP_ORDER.order_detail(product_id, product_name, product_price, status)
+        values (#{productId}, #{productName}, #{productPrice}, #{status})
+    </insert>
+
+    <insert id="insertAll" parameterType="java.util.List">
+        insert into JD_SHOP_ORDER.order_detail(order_no, product_id, number, product_name, product_price, product_sku, status)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.orderNo},#{item.productId}, #{item.number}, #{item.productName}, #{item.productPrice},#{item.productSku}, #{item.status})
+        </foreach>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update JD_SHOP_ORDER.order_detail
+        <set>
+            <if test="productId != null">
+                product_id = #{productId},
+            </if>
+            <if test="productName != null and productName != ''">
+                product_name = #{productName},
+            </if>
+            <if test="productPrice != null">
+                product_price = #{productPrice},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+        </set>
+        where order_detail_id = #{orderDetailId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from JD_SHOP_ORDER.order_detail where order_detail_id = #{orderDetailId}
+    </delete>
+
+</mapper>
