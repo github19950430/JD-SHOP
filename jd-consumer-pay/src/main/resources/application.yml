@@ -1,0 +1,30 @@
+server:
+  port: 8889
+spring:
+  application:
+    name: jd-consumer-pay
+  zipkin: #-ui
+    base-url: http://188.131.133.118:7700
+  sleuth: #追踪
+    sampler:
+      percentage: 1.0
+#  rabbitmq:
+#      host: 188.131.133.118
+#      port: 5672
+#      username: sunyi
+#      password: 123456
+#      virtual-host: /sunyimq
+#      publisher-confirms: true
+#      publisher-returns: true
+#      listener:
+#        simple:
+#          prefetch: 1
+eureka:
+  client:
+    service-url:
+      defaultZone: http://root:123456@39.105.158.185:7776/eureka/
+feign:
+  hystrix:
+    enabled: true
+logging:
+  level: info
