@@ -37,7 +37,7 @@
     <!--查询当前价格和查询结束时间和加价幅度-->
     <select id="querycurrent" resultMap="JudiciaryMap">
         select
-          jud_currentprice,jud_timeout,jud_bidIncrement
+          jud_currentprice,jud_timeout,jud_bidIncrement,jud_picture
         from judiciary where jud_id = #{judId}
     </select>
     <!--查询拍品名称-->
@@ -71,6 +71,12 @@
     <update id="updateRemind">
         update judiciary SET jud_remind = jud_remind + 1 WHERE jud_id = #{judId}
     </update>
+
+    <!--定时任务修改 拍卖状态-->
+    <update id="updateOnlooker">
+        update judiciary SET jud_onlooker = jud_onlooker + 1 WHERE jud_id = #{judId}
+    </update>
+
     <!--定时任务修改 拍卖状态-->
     <update id="updateStatus">
         update judiciary SET jud_status = 3 WHERE jud_id = #{judId}

@@ -6,5 +6,5 @@ import com.example.jdproducerjudiciary.selpojo.ProductSearch;
 import java.util.List;
 
 public interface Seldetails {
-    public List<Judiciary> searchProduct(Integer judid) throws Exception;
+    public List<Judiciary> searchProduct(Integer judid,Integer userid) throws Exception;
 }

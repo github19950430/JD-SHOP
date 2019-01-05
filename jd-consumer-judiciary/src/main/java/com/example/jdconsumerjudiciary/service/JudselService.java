@@ -1,6 +1,5 @@
 package com.example.jdconsumerjudiciary.service;
 
-import com.example.jdconsumerjudiciary.entity.Cashdeposit;
 import com.example.jdconsumerjudiciary.selpojo.ProductSearch;
 
 
@@ -24,4 +23,6 @@ public interface JudselService {
 
     //查询商品出价记录表 三条 排序
     String selconbids(Integer shopid);
+    //查看我的拍品  0拍卖中 和 1已获拍
+    String selmyauction(Integer userid,Integer state);
 }

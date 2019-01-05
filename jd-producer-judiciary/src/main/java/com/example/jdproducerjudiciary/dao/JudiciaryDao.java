@@ -65,6 +65,12 @@ public interface JudiciaryDao {
     int updateRemind(@Param("judId") Integer judId);
 
     /**
+     * 访问详情页进行增加围观人数 +1
+     * @param judId
+     * @return
+     */
+    int updateOnlooker(@Param("judId") Integer judId);
+    /**
      * 定时任务修改 拍卖状态 修改为已结束
      * @param judId
      * @return

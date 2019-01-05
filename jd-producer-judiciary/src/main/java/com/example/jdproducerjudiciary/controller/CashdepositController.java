@@ -47,7 +47,6 @@ public class CashdepositController {
      */
     @RequestMapping(value = "/selcashuser",method = RequestMethod.POST,produces = "text/json;charset=utf-8")
     public String selcashbao(@RequestParam("userid") Integer userid){
-
        return cashdepositService.queryByuserid(userid);
     }
 }

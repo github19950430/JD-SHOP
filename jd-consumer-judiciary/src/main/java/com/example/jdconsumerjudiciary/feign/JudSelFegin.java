@@ -20,7 +20,7 @@ public interface JudSelFegin {
 
     //商品详情页
     @RequestMapping(value = "/seldetails",method = RequestMethod.POST,produces = "text/json;charset=utf-8")
-    String seldetails(@RequestParam("judid") Integer judid) throws Exception;
+    String seldetails(@RequestParam("judid") Integer judid,@RequestParam("userid") Integer userid) throws Exception;
 
     //通过商品ID查询单条商品的保证金   如果没有查不到的话 会返回状态码 "404"
     @RequestMapping(value = "/selectcash",method = RequestMethod.POST,produces = "text/json;charset=utf-8")

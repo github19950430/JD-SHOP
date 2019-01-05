@@ -83,7 +83,7 @@ public class AlipayController {
             return s;
         }
 
-//        @ResponseBody
+//        @ResponseBody  退款接口
         @RequestMapping(value = "refund",method = RequestMethod.GET,produces = "text/html; charset=utf-8")
         public String refund(String WIDTRout_trade_no, String WIDTRtrade_no, String WIDTRrefund_amount, String WIDTRrefund_reason, String WIDTRout_request_no) {
             Refund r = new Refund();

@@ -26,6 +26,8 @@ public class Myauction implements Serializable {
     //-----------------------------------拍卖名称 拍品状态
     private String myjudname; //拍卖名称
     private String mystate; //拍品状态
+    private String myprice; //当前价格
+    private String mypicture;//拍品图片
 
     public String getMyjudname() {
         return myjudname;
@@ -91,4 +93,19 @@ public class Myauction implements Serializable {
         this.myauctionState = myauctionState;
     }
 
+    public String getMyprice() {
+        return myprice;
+    }
+
+    public void setMyprice(String myprice) {
+        this.myprice = myprice;
+    }
+
+    public String getMypicture() {
+        return mypicture;
+    }
+
+    public void setMypicture(String mypicture) {
+        this.mypicture = mypicture;
+    }
 }

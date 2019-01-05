@@ -46,8 +46,8 @@ public class JudiciaryController {
      * @throws Exception
      */
     @RequestMapping(value = "/seldetails",method = RequestMethod.POST,produces = "text/json;charset=utf-8")
-    public String seldetails(@RequestParam("judid") Integer judid) throws Exception {
-        List<Judiciary> judiciaries = seldetails.searchProduct(judid);
+    public String seldetails(@RequestParam("judid") Integer judid,@RequestParam("userid") Integer userid) throws Exception {
+        List<Judiciary> judiciaries = seldetails.searchProduct(judid,userid);
         return JSON.toJSONString(judiciaries);
     }
     /**

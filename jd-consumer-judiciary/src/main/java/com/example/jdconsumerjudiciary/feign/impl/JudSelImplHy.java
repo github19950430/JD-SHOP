@@ -15,7 +15,7 @@ public class JudSelImplHy implements JudSelFegin {
     }
 
     @Override
-    public String seldetails(Integer judid) throws Exception {
+    public String seldetails(Integer judid,Integer userid) throws Exception {
         return "0000";
     }
 

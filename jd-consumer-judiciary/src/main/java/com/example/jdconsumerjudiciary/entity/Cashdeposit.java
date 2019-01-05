@@ -20,8 +20,24 @@ public class Cashdeposit implements Serializable {
     private Integer cashShopid;
     //拍品类型 1 司法 2 海关 3珍品
     private Integer cashType;
+    //保证金状态
+    private Integer cashState;
     //保证金
     private String cashPrice;
+
+    //********************************
+
+    //拍卖商品名称
+    private String judname;
+
+    public String getJudname() {
+        return judname;
+    }
+
+    public void setJudname(String judname) {
+        this.judname = judname;
+    }
+
 
 
     public Integer getCashId() {
@@ -62,6 +78,14 @@ public class Cashdeposit implements Serializable {
 
     public void setCashType(Integer cashType) {
         this.cashType = cashType;
+    }
+
+    public Integer getCashState() {
+        return cashState;
+    }
+
+    public void setCashState(Integer cashState) {
+        this.cashState = cashState;
     }
 
     public String getCashPrice() {

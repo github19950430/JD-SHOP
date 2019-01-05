@@ -11,7 +11,7 @@ public class JdConsumerJudiciaryApplicationTests {
 
     public static void main(String[] args) {
 
-        String a = "100000000";
+        /*String a = "100000000";
         String b = "200,000,000";
         String[] split = a.split(",");
         String[] split1 = b.split(",");
@@ -34,7 +34,10 @@ public class JdConsumerJudiciaryApplicationTests {
 
         String str = "15153.00";
         String substring = str.substring(0, str.indexOf("."));
-        System.out.println(substring);
+        System.out.println(substring);*/
+        Long a = 100l;
+        int b = 111;
+        System.out.println(a + b);
     }
 }
 

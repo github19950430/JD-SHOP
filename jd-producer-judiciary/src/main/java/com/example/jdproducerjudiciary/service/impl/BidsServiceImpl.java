@@ -7,6 +7,8 @@ import com.example.jdproducerjudiciary.service.BidsService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -28,7 +30,17 @@ public class BidsServiceImpl implements BidsService {
      */
     @Override
     public String queryById(Integer judid) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
         List<Bids> bids = this.bidsDao.queryById(judid);
+        for (Bids x:bids) {
+            String bidsTime = x.getBidsTime();
+            long time = Long.parseLong(bidsTime);
+            Date date = new Date(time);
+            String format = simpleDateFormat.format(date);
+            System.out.println("年月日=" + format);
+            x.setBidsTime(format);
+        }
         return JSON.toJSONString(bids);
     }
 

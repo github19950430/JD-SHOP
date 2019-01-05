@@ -5,9 +5,11 @@
     <resultMap type="com.example.jdproducerjudiciary.entity.Cashdeposit" id="CashdepositMap">
         <result property="cashId" column="cash_id" jdbcType="INTEGER"/>
         <result property="cashOrderid" column="cash_orderid" jdbcType="VARCHAR"/>
+        <result property="cashTradeno" column="cahs_trade_no" jdbcType="VARCHAR"/>
         <result property="cashUser" column="cash_user" jdbcType="INTEGER"/>
         <result property="cashShopid" column="cash_shopid" jdbcType="INTEGER"/>
         <result property="cashType" column="cash_type" jdbcType="INTEGER"/>
+        <result property="cashState" column="cash_state" jdbcType="INTEGER"/>
         <result property="cashPrice" column="cash_price" jdbcType="VARCHAR"/>
     </resultMap>
 
@@ -21,21 +23,21 @@
     <!--根据userid查询保证金全部-->
     <select id="queryByuserid" resultMap="CashdepositMap">
         select
-          cash_id, cash_orderid, cash_user, cash_shopid, cash_type, cash_price
+          cash_id, cash_orderid, cahs_trade_no,cash_user, cash_shopid, cash_type,cash_state, cash_price
         from cashdeposit
         where cash_user = #{cashUser}
     </select>
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="CashdepositMap">
         select
-          cash_id, cash_orderid, cash_user, cash_shopid, cash_type, cash_price
+          cash_id, cash_orderid, cahs_trade_no,cash_user, cash_shopid, cash_type,cash_state, cash_price
         from cashdeposit
     </select>
 
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="CashdepositMap">
         select
-          cash_id, cash_orderid, cash_user, cash_shopid, cash_type, cash_price
+          cash_id, cash_orderid,cahs_trade_no, cash_user, cash_shopid, cash_type, cash_state,cash_price
         from cashdeposit
         <where>
             <if test="cashId != null">
@@ -61,8 +63,8 @@
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="cashId" useGeneratedKeys="true">
-        insert into cashdeposit(cash_orderid, cash_user, cash_shopid, cash_type, cash_price)
-        values (#{cashOrderid}, #{cashUser}, #{cashShopid}, #{cashType}, #{cashPrice})
+        insert into cashdeposit(cash_orderid,cahs_trade_no, cash_user, cash_shopid, cash_type,cash_state, cash_price)
+        values (#{cashOrderid},#{cashTradeno}, #{cashUser}, #{cashShopid}, #{cashType},#{cashState}, #{cashPrice})
     </insert>
 
     <!--通过主键修改数据-->

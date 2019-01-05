@@ -5,10 +5,14 @@
       <profile default="true" name="Default" enabled="true" />
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="jd-consumer-order_main" target="1.8" />
+      <module name="jd-consumer-order_test" target="1.8" />
       <module name="jd-pay-consumer_main" target="1.8" />
       <module name="jd-pay-consumer_test" target="1.8" />
       <module name="jd-pay_main" target="1.8" />
       <module name="jd-pay_test" target="1.8" />
+      <module name="jd-producer-order_main" target="1.8" />
+      <module name="jd-producer-order_test" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

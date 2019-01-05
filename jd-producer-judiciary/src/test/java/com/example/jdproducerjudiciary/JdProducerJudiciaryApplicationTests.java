@@ -72,8 +72,6 @@ public class JdProducerJudiciaryApplicationTests {
         System.out.println(jsonObject1.get("msg"));*/
       /*   String a =  1 + 1  +"";
         System.out.println(a);*/
-
-
     }
 
 }

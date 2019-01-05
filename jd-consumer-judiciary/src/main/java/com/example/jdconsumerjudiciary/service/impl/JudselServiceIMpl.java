@@ -41,7 +41,7 @@ public class JudselServiceIMpl implements JudselService {
     public String selJud(Integer judid,Integer userid) throws Exception{
 
         if (userid == null){
-            String jud = judSelFegin.seldetails(judid);
+            String jud = judSelFegin.seldetails(judid,userid);
             if ("0000".equals(jud)){
                 return "服务中断，请重试!";
             }
@@ -54,7 +54,7 @@ public class JudselServiceIMpl implements JudselService {
         cashdeposit.setCashType(1);//司法类型ID
         cashdeposit.setCashShopid(judid);//商品ID
 
-        String jud = judSelFegin.seldetails(judid);//展示数据
+        String jud = judSelFegin.seldetails(judid,userid);//展示数据
 
         String s = judSelFegin.selectOnebao(cashdeposit);//查询用户是否有该商品的保证金
         if ("0000".equals(s) || "0000".equals(jud)){
@@ -121,7 +121,8 @@ public class JudselServiceIMpl implements JudselService {
      */
     @Override
     public String selcash(Integer userid) {
-        return judSelFegin.selcash(userid);
+
+        return judSelFegin.selcashbao(userid);
     }
 
     /**
@@ -148,5 +149,17 @@ public class JudselServiceIMpl implements JudselService {
         if ("0000".equals(selbids))
             return "服务中断!请重试!";
         return selbids;
+    }
+
+    /**
+     * 查看我的拍品  0拍卖中 和 1已获拍
+     * @param userid
+     * @param state
+     * @return
+     */
+    @Override
+    public String selmyauction(Integer userid, Integer state) {
+        String selmyauction = judSelFegin.selmyauction(userid, state);
+        return selmyauction;
     }
 }

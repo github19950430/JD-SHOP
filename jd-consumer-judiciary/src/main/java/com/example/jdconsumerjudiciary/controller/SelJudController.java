@@ -33,7 +33,7 @@ public class SelJudController {
         return JSON.toJSONString(judselService.upaddcash(userid,judid));
     }
 
-    //  根据用户ID查看用户多少缴纳的保证金
+    //  根据用户ID查看用户缴纳的商品保证金 全部
     @RequestMapping(value = "/slecashuserid",method = RequestMethod.GET,produces = "text/json;charset=utf-8")
     public String selcash(Integer userid){
        return judselService.selcash(userid);
@@ -51,5 +51,11 @@ public class SelJudController {
     public String selbids(Integer judid){
         System.out.println("judid=" + judid);
        return judselService.selconbids(judid);
+    }
+    //查看我的拍品  0拍卖中 和 1已获拍
+    @RequestMapping(value = "/selmyauction",method = RequestMethod.GET,produces = "text/json;charset=utf-8")
+    public String selmyauction(Integer userid,Integer state){
+        System.out.println("userid=" + userid + "**state=" + state);
+       return judselService.selmyauction(userid,state);
     }
 }

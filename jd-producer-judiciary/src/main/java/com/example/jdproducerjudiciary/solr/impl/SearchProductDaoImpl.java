@@ -1,6 +1,8 @@
 package com.example.jdproducerjudiciary.solr.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.example.jdproducerjudiciary.dao.CityDao;
+import com.example.jdproducerjudiciary.entity.City;
 import com.example.jdproducerjudiciary.entity.Judiciary;
 import com.example.jdproducerjudiciary.selpojo.ProductSearch;
 import com.example.jdproducerjudiciary.solr.SearchProductDao;
@@ -13,11 +15,14 @@ import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.params.ModifiableSolrParams;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
 public class SearchProductDaoImpl implements SearchProductDao {
+    @Resource
+    private CityDao cityDao;
 
     private static final String solrUrl="http://188.131.133.118:8983/solr/judiciary-core";//司法core
 
@@ -39,11 +44,6 @@ public class SearchProductDaoImpl implements SearchProductDao {
         }
         //设置默认搜索域
         solrQuery.set("df", "product_keywords");
-        // 根据ID查
-        if (null != productSearch.getId() && !"".equals(productSearch.getId())){
-            System.out.println("有id" + productSearch.getId());
-            solrQuery.addFilterQuery("id:" + productSearch.getId());
-        }
         //设置过滤条件  分类
         if(null != productSearch.getCatalog_name() && !"".equals(productSearch.getCatalog_name())){
             System.out.println("有分类" + productSearch.getCatalog_name());
@@ -58,16 +58,16 @@ public class SearchProductDaoImpl implements SearchProductDao {
         if (null != productSearch.getState() && !"".equals(productSearch.getState())){
             System.out.println("有状态" + productSearch.getState());
             solrQuery.addFilterQuery("judStatus:" + productSearch.getState());
-        }else {
+        }/*else {
             solrQuery.addFilterQuery("judStatus:1");// 1拍卖中 2预告中 3已结束 4已暂缓 5已中止 6已撤回
-        }
+        }*/
         //阶段
         if (null != productSearch.getStage() && !"".equals(productSearch.getStage())){
             System.out.println("有阶段" + productSearch.getStage());
             solrQuery.addFilterQuery("judFrequency:" + productSearch.getStage());
-        }else {
+        }/*else {
             solrQuery.addFilterQuery("judFrequency:1");// 1一拍 2二拍 3变卖
-        }
+        }*/
         //对价格进行过滤
         if(null != productSearch.getPrice() && !"".equals(productSearch.getPrice())){
             System.out.println("有价格" + productSearch.getPrice());
@@ -101,7 +101,11 @@ public class SearchProductDaoImpl implements SearchProductDao {
             Judiciary judiciary = new Judiciary();
             judiciary.setJudId(Integer.parseInt((String) doc.get("id")));
             judiciary.setJudCategory(Integer.parseInt((String) doc.get("judcategory")));
-            judiciary.setJudAreacity((String) doc.get("judAreacity"));
+
+            City judAreacity = cityDao.queryById(Integer.parseInt((String) doc.get("judAreacity")));
+            String cityName = judAreacity.getCityName();
+            judiciary.setJudAreacity(cityName);
+
             judiciary.setJudStatus(Integer.parseInt((String) doc.get("judStatus")));
             judiciary.setJudFrequency(Integer.parseInt((String) doc.get("judFrequency")));
             judiciary.setJudTradename((String) doc.get("judTradename"));
