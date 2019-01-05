@@ -14,7 +14,7 @@ public class PayupPrice {
 
         //设置请求参数
         AlipayTradePagePayRequest alipayRequest = new AlipayTradePagePayRequest();
-        alipayRequest.setReturnUrl(AlipayConfig.return_urlupprice);
+        alipayRequest.setReturnUrl(AlipayConfig.return_url);
         alipayRequest.setNotifyUrl(AlipayConfig.notify_url);
         //+ "?WIDjudID=" + WIDjudID + "&WIDuserid=" + WIDuserid
         /*//商户订单号，商户网站订单系统中唯一订单号，必填
