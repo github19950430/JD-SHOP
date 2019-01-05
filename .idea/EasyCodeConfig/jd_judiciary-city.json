@@ -1,0 +1,24 @@
+{
+  "name" : "City",
+  "comment" : null,
+  "fullColumn" : [ {
+    "name" : "cityId",
+    "comment" : null,
+    "type" : null,
+    "shortType" : null,
+    "custom" : false,
+    "ext" : { }
+  }, {
+    "name" : "cityName",
+    "comment" : "城市名称",
+    "type" : "java.lang.String",
+    "shortType" : null,
+    "custom" : false,
+    "ext" : { }
+  } ],
+  "pkColumn" : null,
+  "otherColumn" : null,
+  "savePackageName" : "com.example.jdproducerjudiciary",
+  "savePath" : "./jd-producer-judiciary/src/main/java/com/example/jdproducerjudiciary",
+  "saveModelName" : "jd-producer-judiciary_main"
+}
