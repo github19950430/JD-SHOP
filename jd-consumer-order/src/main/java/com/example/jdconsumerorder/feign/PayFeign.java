@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient(name = "jd-pay",fallback = PayFeignImpl.class)
+@FeignClient(name = "jd-producer-pay",fallback = PayFeignImpl.class)
 public interface PayFeign {
 
     @RequestMapping(value = "pay",method = RequestMethod.POST,produces = "text/html;charset=utf-8")
